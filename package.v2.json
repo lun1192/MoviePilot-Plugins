@@ -3,7 +3,7 @@
         "name": "rss下载托管",
         "description": "rss刷流。",
         "labels": "刷流,仪表板",
-        "version": "10.0.0",
+        "version": "5.0.0",
         "icon": "brush.jpg",
         "author": "lun",
         "level": 2,
