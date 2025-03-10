@@ -243,21 +243,20 @@ class BrushConfig:
 
 class RssBrush(_PluginBase):
     # region 全局定义
-
     # 插件名称
-    plugin_name = "站点刷流"
+    plugin_name = "rss下载托管"
     # 插件描述
-    plugin_desc = "自动托管刷流，将会提高对应站点的访问频率。"
+    plugin_desc = "rss刷流"
     # 插件图标
     plugin_icon = "brush.jpg"
     # 插件版本
-    plugin_version = "4.3.1"
+    plugin_version = "5.0.0"
     # 插件作者
-    plugin_author = "jxxghp,InfinityPacer"
+    plugin_author = "lun"
     # 作者主页
     author_url = "https://github.com/InfinityPacer"
     # 插件配置项ID前缀
-    plugin_config_prefix = "brushflow_"
+    plugin_config_prefix = "rssbrush_"
     # 加载顺序
     plugin_order = 21
     # 可使用的用户级别
