@@ -1,7 +1,7 @@
 {
     "RssBrush": {
         "name": "rss下载托管",
-        "description": "自动托管刷流，将会提高对应站点的访问频率。",
+        "description": "rss刷流。",
         "labels": "刷流,仪表板",
         "version": "1.0.0",
         "icon": "brush.jpg",
