@@ -241,7 +241,7 @@ class BrushConfig:
         return self.__str__()
 
 
-class BrushFlow(_PluginBase):
+class RssBrush(_PluginBase):
     # region 全局定义
 
     # 插件名称
@@ -440,7 +440,7 @@ class BrushFlow(_PluginBase):
                 logger.info(f"站点刷流定时服务启动，执行周期 {cron}")
                 cron_trigger = CronTrigger.from_crontab(cron)
                 services.append({
-                    "id": "BrushFlow",
+                    "id": "RssBrush",
                     "name": "站点刷流服务",
                     "trigger": cron_trigger,
                     "func": self.brush
@@ -448,7 +448,7 @@ class BrushFlow(_PluginBase):
             else:
                 logger.info(f"站点刷流定时服务启动，时间间隔 {self._brush_interval} 分钟")
                 services.append({
-                    "id": "BrushFlow",
+                    "id": "RssBrush",
                     "name": "站点刷流服务",
                     "trigger": "interval",
                     "func": self.brush,
