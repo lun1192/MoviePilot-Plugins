@@ -34,11 +34,11 @@ class GroupChatZoneTest(_PluginBase):
     # 插件版本
     plugin_version = "2.0.0"
     # 插件作者
-    plugin_author = "KoWming,madrays"
+    plugin_author = "lun"
     # 作者主页
-    author_url = "https://github.com/KoWming"
+    author_url = "https://github.com/lun1192/MoviePilot-Plugins"
     # 插件配置项ID前缀
-    plugin_config_prefix = "groupchatzonetest_"
+    plugin_config_prefix = "groupchatzonetest1_"
     # 加载顺序
     plugin_order = 0
     # 可使用的用户级别
