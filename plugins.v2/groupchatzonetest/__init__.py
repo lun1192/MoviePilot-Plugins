@@ -26,13 +26,13 @@ from app.utils.timer import TimerUtils
 
 class GroupChatZoneTest(_PluginBase):
     # 插件名称
-    plugin_name = "群聊区测试"
+    plugin_name = "群聊区测试1"
     # 插件描述
     plugin_desc = "定时向多个站点发送预设消息(特定站点可获得奖励)。"
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/GroupChat.png"
     # 插件版本
-    plugin_version = "1.3.2"
+    plugin_version = "2.0.0"
     # 插件作者
     plugin_author = "KoWming,madrays"
     # 作者主页
