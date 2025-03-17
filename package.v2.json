@@ -1,14 +1,14 @@
 {
     "GroupChatZoneTest": {
-    "name": "群聊区测试",
+    "name": "群聊区测试1",
     "description": "定时向多个站点发送预设消息(特定站点可获得奖励)。",
     "labels": "站点",
-    "version": "1.3.2",
+    "version": "2.0.0",
     "icon": "https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins-test/main/icons/GroupChat.png",
     "author": "KoWming,madrays",
     "level": 2,
     "history": {
-        "v1.3.2": "小时循环增加1分钟。",
+        "v2.0.0": "小时循环增加1分钟。",
         "v1.3.1": "界面调整。",
         "v1.3.0": "感谢@madrays大佬添加喊话反馈功能！",
         "v1.2.8": "添加定时任务检测逻辑避免频繁发送请求给站点造成压力。",
