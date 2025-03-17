@@ -32,7 +32,7 @@ class GroupChatZoneTest(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/GroupChat.png"
     # 插件版本
-    plugin_version = "1.3.1"
+    plugin_version = "1.3.2"
     # 插件作者
     plugin_author = "KoWming,madrays"
     # 作者主页
@@ -297,15 +297,16 @@ class GroupChatZoneTest(_PluginBase):
                             if interval_hours < 1:
                                 logger.warning(f"检测到间隔过小 ({interval_hours}小时)，已自动调整为默认随机执行")
                                 return self.__get_random_schedule()
-                                
+                            logger.info(f"间隔执行喊话任务 ({interval_hours}小时)")    
                             # 默认0-24 按照周期运行
                             return [{
-                                "id": "GroupChatZoneTest",
+                                "id": "GroupChatZone",
                                 "name": "站点喊话服务",
                                 "trigger": "interval",
                                 "func": self.send_site_messages,
                                 "kwargs": {
                                     "hours": interval_hours,
+                                    "minutes": 1,
                                 }
                             }]
                         except ValueError:
