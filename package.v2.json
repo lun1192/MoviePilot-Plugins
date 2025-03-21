@@ -27,7 +27,7 @@
         "name": "QB RSS刷流管理",
         "description": "自动订阅qBittorrent的RSS下载和上传流量管理。",
         "labels": "刷流",
-        "version": "15.0.0",
+        "version": "1.0.0",
         "icon": "brush.jpg",
         "author": "lun",
         "level": 2,
