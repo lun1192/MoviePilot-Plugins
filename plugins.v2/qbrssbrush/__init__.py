@@ -26,7 +26,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.0.2"
+    plugin_version = "1.2"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
