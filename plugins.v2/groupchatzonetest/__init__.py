@@ -32,7 +32,7 @@ class GroupChatZoneTest(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/KoWming/MoviePilot-Plugins/main/icons/GroupChat.png"
     # 插件版本
-    plugin_version = "2.0.0"
+    plugin_version = "2.1"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -66,7 +66,7 @@ class GroupChatZoneTest(_PluginBase):
     _running: bool = False
     _get_feedback: bool = False  # 是否获取反馈
     _feedback_timeout: int = 5  # 获取反馈的超时时间(秒)
-    
+    _timedelta = 0.0
     # 缓存设置
     _cache_ttl: int = 3600  # 缓存过期时间（秒）
     _site_cache: Optional[TTLCache] = None
@@ -108,26 +108,28 @@ class GroupChatZoneTest(_PluginBase):
 
             # 立即运行一次
             if self._onlyonce:
-                try:
-                    # 定时服务
-                    self._scheduler = BackgroundScheduler(timezone=settings.TZ)
-                    logger.info("站点喊话服务启动，立即运行一次")
-                    self._scheduler.add_job(func=self.send_site_messages, trigger='date',
-                                            run_date=datetime.now(tz=pytz.timezone(settings.TZ)) + timedelta(seconds=3),
-                                            name="站点喊话服务")
+                # 关闭一次性开关
+                self._onlyonce = False
+                self.run_task()
 
-                    # 关闭一次性开关
-                    self._onlyonce = False
-                    # 保存配置
-                    self.__update_config(refresh_cache=False)
+    def run_task(self):
+        try:
+            # 定时服务
+            self._scheduler = BackgroundScheduler(timezone=settings.TZ)
+            logger.info("站点喊话服务启动，立即运行一次")
+            self._scheduler.add_job(func=self.send_site_messages, trigger='date',
+                                    run_date=datetime.now(tz=pytz.timezone(settings.TZ)) + timedelta(minutes=self._timedelta, seconds=3),
+                                    name="站点喊话服务")
+            self._timedelta = self._timedelta + 1
+            # 保存配置
+            self.__update_config(refresh_cache=False)
 
-                    # 启动任务
-                    if self._scheduler and self._scheduler.get_jobs():
-                        self._scheduler.print_jobs()
-                        self._scheduler.start()
-                except Exception as e:
-                    logger.error(f"启动一次性任务失败: {str(e)}")
-
+            # 启动任务
+            if self._scheduler and self._scheduler.get_jobs():
+                self._scheduler.print_jobs()
+                self._scheduler.start()
+        except Exception as e:
+            logger.error(f"启动任务失败: {str(e)}")
     def __get_site_info(self, refresh=False, log_update=True):
         """
         获取站点信息并创建映射，支持缓存
@@ -254,7 +256,7 @@ class GroupChatZoneTest(_PluginBase):
                         "id": "GroupChatZoneTest",
                         "name": "站点喊话服务",
                         "trigger": CronTrigger.from_crontab(self._cron),
-                        "func": self.send_site_messages,
+                        "func": self.run_task,
                         "kwargs": {}
                     }]
                 else:
@@ -281,7 +283,7 @@ class GroupChatZoneTest(_PluginBase):
                                 "id": "GroupChatZoneTest",
                                 "name": "站点喊话服务",
                                 "trigger": "interval",
-                                "func": self.send_site_messages,
+                                "func": self.run_task,
                                 "kwargs": {
                                     "hours": interval_hours,
                                 }
@@ -303,10 +305,9 @@ class GroupChatZoneTest(_PluginBase):
                                 "id": "GroupChatZone",
                                 "name": "站点喊话服务",
                                 "trigger": "interval",
-                                "func": self.send_site_messages,
+                                "func": self.run_task,
                                 "kwargs": {
-                                    "hours": interval_hours,
-                                    "minutes": 1,
+                                    "hours": interval_hours
                                 }
                             }]
                         except ValueError:
