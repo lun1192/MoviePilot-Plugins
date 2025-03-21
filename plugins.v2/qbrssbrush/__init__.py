@@ -25,7 +25,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.0.0"
+    plugin_version = "1.0.1"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -168,7 +168,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+                                    'md': 3
                                 },
                                 'content': [
                                     {
@@ -184,7 +184,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+                                    'md': 3
                                 },
                                 'content': [
                                     {
@@ -200,7 +200,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+                                    'md': 3
                                 },
                                 'content': [
                                     {
@@ -216,7 +216,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 4
+                                    'md': 3
                                 },
                                 'content': [
                                     {
@@ -237,7 +237,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+                                    'md': 2
                                 },
                                 'content': [
                                     {
@@ -254,7 +254,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+                                    'md': 5
                                 },
                                 'content': [
                                     {
@@ -274,7 +274,8 @@ class QBRssBrush(_PluginBase):
                             {
                                 'component': 'VCol',
                                 'props': {
-                                    'cols': 12
+                                    'cols': 12,
+                                    'md': 5
                                 },
                                 'content': [
                                     {
@@ -308,6 +309,7 @@ class QBRssBrush(_PluginBase):
                                         'props': {
                                             'model': 'rss_name',
                                             'label': 'RSS订阅名称',
+                                            'placeholder': '只支持1个'
                                         }
                                     }
                                 ]
@@ -324,6 +326,7 @@ class QBRssBrush(_PluginBase):
                                         'props': {
                                             'model': 'rss_category',
                                             'label': '下载任务分类',
+                                            'placeholder': '只支持1个'
                                         }
                                     }
                                 ]
@@ -337,7 +340,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+                                    'md': 3
                                 },
                                 'content': [
                                     {
@@ -354,16 +357,16 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 4
+                                    'md': 3
                                 },
                                 'content': [
                                     {
                                         'component': 'VTextField',
                                         'props': {
                                             'model': 'rss_upspeed_min',
-                                            'label': '种子最小上传速度',
+                                            'label': '种子最小上传速度(kB/s)',
                                             'type': 'number',
-                                            'placeholder': '(kB/s)种子小于该值将被删除'
+                                            'placeholder': '种子小于该值将被删除'
                                         }
                                     }
                                 ]
@@ -372,16 +375,16 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 4
+                                    'md': 3
                                 },
                                 'content': [
                                     {
                                         'component': 'VTextField',
                                         'props': {
                                             'model': 'rss_upspeed_max',
-                                            'label': '下载器最大上传速度',
+                                            'label': '下载器最大上传速度(kB/s)',
                                             'type': 'number',
-                                            'placeholder': '(KB/s)超过该值不再进行rss刷新'
+                                            'placeholder': '超过该值不再进行rss刷新'
                                         }
                                     }
                                 ]
@@ -390,16 +393,16 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 4
+                                    'md': 3
                                 },
                                 'content': [
                                     {
                                         'component': 'VTextField',
                                         'props': {
                                             'model': 'rss_aging_time',
-                                            'label': 'rss订阅过期时间',
+                                            'label': 'rss订阅过期时间(分钟)',
                                             'type': 'number',
-                                            'placeholder': 'minutes，超过该时间的rss订阅将被忽略'
+                                            'placeholder': '超过该时间的rss订阅将被忽略'
                                         }
                                     }
                                 ]
@@ -413,7 +416,7 @@ class QBRssBrush(_PluginBase):
                                 'component': 'VCol',
                                 'props': {
                                     'cols': 12,
-                                    'md': 6
+
                                 },
                                 'content': [
                                     {
@@ -447,6 +450,27 @@ class QBRssBrush(_PluginBase):
                                 ]
                             }
                         ]
+                    },
+                    {
+                        'component': 'VRow',
+                        'content': [
+                            {
+                                'component': 'VCol',
+                                'props': {
+                                    'cols': 12,
+                                },
+                                'content': [
+                                    {
+                                        'component': 'VAlert',
+                                        'props': {
+                                            'type': 'info',
+                                            'variant': 'tonal',
+                                            'text': '目前只支持qb下载器，RSS订阅源需要手动在qb的webui处添加。'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
@@ -457,14 +481,7 @@ class QBRssBrush(_PluginBase):
             "action": 'pause',
             'downloaders': [],
             "rss_enabled": False,
-            "rss_interval": 15,
-            "rss_name": "",
-            "rss_regex": "",
-            "rss_category": "",
-            "rss_size_limit": 100,
-            "rss_upspeed_min": 1024,
-            "rss_upspeed_max": 4096,
-            "rss_aging_time": 240
+            "rss_interval": 15
         }
 
     def get_page(self) -> List[dict]:
