@@ -23,16 +23,16 @@
         "v1.0": "初始版本。"
     }
   },
-    "RssBrush": {
-        "name": "rss下载托管",
-        "description": "rss刷流。",
-        "labels": "刷流,仪表板",
-        "version": "5.0.0",
+    "QBRssBrush": {
+        "name": "QB RSS刷流管理",
+        "description": "自动订阅qBittorrent的RSS下载和上传流量管理。",
+        "labels": "刷流",
+        "version": "15.0.0",
         "icon": "brush.jpg",
         "author": "lun",
         "level": 2,
         "history": {
-            "v1.0": "MoviePilot V2 版本站点刷流插件"
+            "v1.0": "MoviePilot V2 版本站点RSS刷流插件"
         }
     }
 }
