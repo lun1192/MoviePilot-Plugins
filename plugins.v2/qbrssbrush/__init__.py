@@ -12,6 +12,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.core.config import settings
 from app.helper.downloader import DownloaderHelper
 from app.log import logger
+import traceback
 from app.plugins import _PluginBase
 from app.schemas import NotificationType, ServiceInfo
 from app.utils.string import StringUtils
@@ -25,7 +26,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.1"
+    plugin_version = "1.0.2"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -627,6 +628,8 @@ class QBRssBrush(_PluginBase):
                         else:
                             logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit}GB，暂停RSS刷新")
             except Exception as e:
+                error_message = traceback.format_exc()
+                print("Error occurred:", error_message)
                 logger.error(f"自动删种任务异常：{str(e)}")
                 
     def __get_category_size(self, downloader: str, category: str | None) -> float:
