@@ -27,12 +27,13 @@
         "name": "QB RSS刷流管理",
         "description": "自动订阅qBittorrent的RSS下载和上传流量管理。",
         "labels": "刷流",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "icon": "brush.jpg",
         "author": "lun",
         "level": 2,
         "history": {
-            "v1.0.1": "修正页面布局和默认参数"
+            "v1.0.2": "修复逻辑bug",
+            "v1.0.1": "修正页面布局和默认参数",
             "v1.0.0": "MoviePilot V2 版本站点RSS刷流插件"
         }
     }
