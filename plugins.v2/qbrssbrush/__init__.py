@@ -25,7 +25,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.0.1"
+    plugin_version = "1.0.2"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -73,14 +73,14 @@ class QBRssBrush(_PluginBase):
             
             # 新增配置项
             self._rss_enabled = config.get("rss_enabled", False)
-            self._rss_interval = config.get("rss_interval", 15)
+            self._rss_interval = int(config.get("rss_interval", 15))
             self._rss_name = config.get("rss_name", "")
             self._rss_regex = config.get("rss_regex", "")
             self._rss_category = config.get("rss_category", None)
-            self._rss_size_limit = config.get("rss_size_limit", 10000.0)
-            self._rss_upspeed_min = config.get("rss_upspeed_min", 0)
-            self._rss_upspeed_max = config.get("rss_upspeed_max", 0)
-            self._rss_aging_time = config.get("rss_aging_time", 0)
+            self._rss_size_limit = float(config.get("rss_size_limit", 10000.0))
+            self._rss_upspeed_min = int(config.get("rss_upspeed_min", 0))
+            self._rss_upspeed_max = int(config.get("rss_upspeed_max", 0))
+            self._rss_aging_time = int(config.get("rss_aging_time", 0))
 
             if self._rss_interval < 10:
                 self._rss_interval = 10
