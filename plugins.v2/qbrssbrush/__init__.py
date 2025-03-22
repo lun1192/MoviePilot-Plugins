@@ -25,7 +25,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.2"
+    plugin_version = "1.3"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -577,7 +577,8 @@ class QBRssBrush(_PluginBase):
                                     return
                                 text_item = f"{torrent.get('name')} " \
                                             f"来自站点：{torrent.get('site')} " \
-                                            f"大小：{StringUtils.str_filesize(torrent.get('size'))}"
+                                            f"大小：{StringUtils.str_filesize(torrent.get('size'))} " \
+                                            f"上传大小：{StringUtils.str_filesize(torrent.get('upsize'))}"
                                 # 暂停种子
                                 downlader_obj.stop_torrents(ids=[torrent.get("id")])
                                 logger.info(f"自动删种任务 暂停种子：{text_item}")
@@ -590,7 +591,8 @@ class QBRssBrush(_PluginBase):
                                     return
                                 text_item = f"{torrent.get('name')} " \
                                             f"来自站点：{torrent.get('site')} " \
-                                            f"大小：{StringUtils.str_filesize(torrent.get('size'))}"
+                                            f"大小：{StringUtils.str_filesize(torrent.get('size'))} " \
+                                            f"上传大小：{StringUtils.str_filesize(torrent.get('upsize'))}"
                                 # 删除种子
                                 downlader_obj.delete_torrents(delete_file=False,
                                                             ids=[torrent.get("id")])
@@ -604,7 +606,8 @@ class QBRssBrush(_PluginBase):
                                     return
                                 text_item = f"{torrent.get('name')} " \
                                             f"来自站点：{torrent.get('site')} " \
-                                            f"大小：{StringUtils.str_filesize(torrent.get('size'))}"
+                                            f"大小：{StringUtils.str_filesize(torrent.get('size'))} " \
+                                            f"上传大小：{StringUtils.str_filesize(torrent.get('upsize'))}"
                                 # 删除种子
                                 downlader_obj.delete_torrents(delete_file=True,
                                                             ids=[torrent.get("id")])
@@ -627,7 +630,6 @@ class QBRssBrush(_PluginBase):
                         else:
                             logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit}GB，暂停RSS刷新")
             except Exception as e:
-                print("Error occurred:", error_message)
                 logger.error(f"自动删种任务异常：{str(e)}")
                 
     def __get_category_size(self, downloader: str, category: str | None) -> float:
@@ -801,6 +803,8 @@ class QBRssBrush(_PluginBase):
         torrent_seeding_time = date_now - date_done if date_done else 0
         # 平均上传速度
         torrent_upload_avs = torrent.uploaded / torrent_seeding_time if torrent_seeding_time else 0
+        # 瞬时上传速度
+        torrent_upload_speed = torrent.upspeed
         """
         sizes = self._size.split('-') if self._size else []
         minsize = float(sizes[0]) * 1024 * 1024 * 1024 if sizes else 0
@@ -827,11 +831,14 @@ class QBRssBrush(_PluginBase):
             return None
         if self._rss_upspeed_min and torrent_upload_avs >= float(self._rss_upspeed_min) * 1024:
             return None
+        if torrent_upload_speed >= float(self._rss_upspeed_min) * 1024:
+            return None
         return {
             "id": torrent.hash,
             "name": torrent.name,
             "site": StringUtils.get_url_sld(torrent.tracker),
-            "size": torrent.size
+            "size": torrent.size,
+            "upsize": torrent.uploaded
         }
 
     def get_remove_torrents(self, downloader: str): 
