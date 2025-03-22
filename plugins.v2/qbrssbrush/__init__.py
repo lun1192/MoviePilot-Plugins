@@ -707,7 +707,6 @@ class QBRssBrush(_PluginBase):
                 match = re.search(r'\[(\d+(\.\d+)?)\s*GB\]', article_title)
                 if match is None:
                     continue
-
                 # 如果文章未处理过且有下载链接
                 if article_title and article_link and article_title not in self._processed_torrents:
                     rss_items.append(
@@ -733,53 +732,59 @@ class QBRssBrush(_PluginBase):
         try:
             downloader_obj = self.__get_downloader(downloader)
                        
-            #刷新RSS并添加下载任务
-            logger.info(f"开始刷新RSS: {self._rss_name}")
-
-            # 获取RSS条目
-            rss_items = self.__get_rss_items(downloader, self._rss_name)
-            if not rss_items:
-                logger.info(f"RSS {self._rss_name} 没有新的条目")
-                return
-            
-            # 根据正则表达式过滤条目
             added_count = 0
-            for item in rss_items:
-                item_title = item.get("title", "")
-                item_url = item.get("url", "")
-                item_size = float(item.get("size", ""))
-                # 使用正则表达式匹配
-                if re.search(self._rss_regex, item_title):
-                    if item_size > remain_size:
-                        logger.info(f"任务体积过大，剩余空间（{remain_size}GB）不足，跳过: {item_title}")
-                        continue
-                    # 添加下载任务
-                    logger.info(f"添加下载任务: {item_title}")
-                    success = downloader_obj.add_torrent(
-                        content=item_url,
-                        is_paused=False,
-                        download_dir=None,
-                        category=self._rss_category,
-                        tag=None
-                    )
-                    
-                    if success:
-                        added_count += 1
-                        if len(self._processed_torrents) > 1000:  # 设置一个合理的上限
-                            self._processed_torrents = set(list(self._processed_torrents)[-500:])
-                        self._processed_torrents.add(item_title)
-                        remain_size = remain_size - item_size
-                        logger.info(f"成功添加下载任务: {item_title}")
-                    else:
-                        logger.error(f"添加下载任务失败: {item_title}")
+            total_size = 0.0  # 用于存储总大小
+            added_items = []  # 用于存储添加的任务名称
+            #刷新RSS并添加下载任务
+            rss_names = self._rss_name.split(",")
+            for rss_name in rss_names:
+
+                logger.info(f"开始刷新RSS: {self._rss_name}")
+                # 获取RSS条目
+                rss_items = self.__get_rss_items(downloader, rss_name)
+                if not rss_items:
+                    logger.info(f"RSS {self._rss_name} 没有新的条目")
+                    return
+                
+                # 根据正则表达式过滤条目
+                for item in rss_items:
+                    item_title = item.get("title", "")
+                    item_url = item.get("url", "")
+                    item_size = float(item.get("size", ""))
+                    # 使用正则表达式匹配
+                    if re.search(self._rss_regex, item_title):
+                        if item_size > remain_size:
+                            logger.info(f"任务体积过大，剩余空间（{remain_size}GB）不足，跳过: {item_title}")
+                            continue
+                        # 添加下载任务
+                        logger.info(f"添加下载任务: {item_title}")
+                        success = downloader_obj.add_torrent(
+                            content=item_url,
+                            is_paused=False,
+                            download_dir=None,
+                            category=self._rss_category,
+                            tag=None
+                        )
+                        
+                        if success:
+                            added_count += 1
+                            total_size += item_size  # 累加总大小
+                            added_items.append(item_title)  # 收集添加的任务名称
+                            if len(self._processed_torrents) > 1000:  # 设置一个合理的上限
+                                self._processed_torrents = set(list(self._processed_torrents)[-500:])
+                            self._processed_torrents.add(item_title)
+                            remain_size = remain_size - item_size
+                        else:
+                            logger.error(f"添加下载任务失败: {item_title}")
             
             if added_count > 0:
-                logger.info(f"本次RSS刷新共添加了 {added_count} 个下载任务")
+                added_items_str = ', '.join(added_items)
+                logger.info(f"本次RSS刷新共添加了 {added_count} 个下载任务，总大小为 {total_size:.2f}GB，剩余空间 {remain_size:.2f}GB,任务名称: {added_items_str}")
                 if self._notify:
                     self.post_message(
                         mtype=NotificationType.SiteMessage,
                         title=f"【RSS刷新完成】",
-                        text=f"本次RSS刷新共添加了 {added_count} 个下载任务"
+                        text=f"本次RSS刷新共添加了 {added_count} 个下载任务，总大小为 {total_size:.2f}GB，剩余空间 {remain_size:.2f}GB,任务名称: {added_items_str}"
                     )
             else:
                 logger.info(f"本次RSS刷新没有添加新的下载任务")
