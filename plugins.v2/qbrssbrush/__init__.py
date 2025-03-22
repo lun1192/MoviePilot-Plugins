@@ -12,7 +12,6 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.core.config import settings
 from app.helper.downloader import DownloaderHelper
 from app.log import logger
-import traceback
 from app.plugins import _PluginBase
 from app.schemas import NotificationType, ServiceInfo
 from app.utils.string import StringUtils
@@ -628,7 +627,6 @@ class QBRssBrush(_PluginBase):
                         else:
                             logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit}GB，暂停RSS刷新")
             except Exception as e:
-                error_message = traceback.format_exc()
                 print("Error occurred:", error_message)
                 logger.error(f"自动删种任务异常：{str(e)}")
                 
@@ -779,12 +777,12 @@ class QBRssBrush(_PluginBase):
             
             if added_count > 0:
                 added_items_str = ', '.join(added_items)
-                logger.info(f"本次RSS刷新共添加了 {added_count} 个下载任务，总大小为 {total_size:.2f}GB，剩余空间 {remain_size:.2f}GB,任务名称: {added_items_str}")
+                logger.info(f"本次RSS刷新共添加了 {added_count} 个下载任务，总大小为 {total_size:.2f}GB，剩余空间 {remain_size:.2f}GB，任务名称: {added_items_str}")
                 if self._notify:
                     self.post_message(
                         mtype=NotificationType.SiteMessage,
                         title=f"【RSS刷新完成】",
-                        text=f"本次RSS刷新共添加了 {added_count} 个下载任务，总大小为 {total_size:.2f}GB，剩余空间 {remain_size:.2f}GB,任务名称: {added_items_str}"
+                        text=f"本次RSS刷新共添加了 {added_count} 个下载任务，总大小为 {total_size:.2f}GB，剩余空间 {remain_size:.2f}GB，任务名称: {added_items_str}"
                     )
             else:
                 logger.info(f"本次RSS刷新没有添加新的下载任务")
