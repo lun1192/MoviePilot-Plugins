@@ -309,7 +309,7 @@ class QBRssBrush(_PluginBase):
                                         'props': {
                                             'model': 'rss_name',
                                             'label': 'RSS订阅名称',
-                                            'placeholder': '只支持1个'
+                                            'placeholder': '多个rss使用","分割'
                                         }
                                     }
                                 ]
