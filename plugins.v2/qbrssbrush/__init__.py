@@ -739,12 +739,12 @@ class QBRssBrush(_PluginBase):
             rss_names = self._rss_name.split(",")
             for rss_name in rss_names:
 
-                logger.info(f"开始刷新RSS: {self._rss_name}")
+                logger.info(f"开始刷新RSS: {rss_name}")
                 # 获取RSS条目
                 rss_items = self.__get_rss_items(downloader, rss_name)
                 if not rss_items:
-                    logger.info(f"RSS {self._rss_name} 没有新的条目")
-                    return
+                    logger.info(f"RSS {rss_name} 没有新的条目")
+                    continue
                 
                 # 根据正则表达式过滤条目
                 for item in rss_items:
