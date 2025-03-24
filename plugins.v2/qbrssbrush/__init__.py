@@ -309,7 +309,7 @@ class QBRssBrush(_PluginBase):
                                         'props': {
                                             'model': 'rss_name',
                                             'label': 'RSS订阅名称',
-                                            'placeholder': '多个rss使用","分割'
+                                            'placeholder': '多个rss使用","(半角)分割'
                                         }
                                     }
                                 ]
@@ -560,7 +560,7 @@ class QBRssBrush(_PluginBase):
                         avg_upspeed = self.__get_average_upspeed(downloader)
                 
                         if avg_upspeed >= self._rss_upspeed_max:
-                            logger.info(f"当前上传速度 {avg_upspeed:.2f}MB/s 已超过上限 {self._rss_upspeed_max}KB/s，暂停RSS刷新和种子删除")
+                            logger.info(f"当前上传速度 {avg_upspeed:.2f}KB/s 已超过上限 {self._rss_upspeed_max}KB/s，暂停RSS刷新和种子删除")
                             return
                     
                     # 获取需删除种子列表
@@ -628,7 +628,7 @@ class QBRssBrush(_PluginBase):
                             #刷新rss，并下载新种子
                             self.refresh_rss(downloader, remain_size)
                         else:
-                            logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit}GB，暂停RSS刷新")
+                            logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit:.2f}GB，暂停RSS刷新")
             except Exception as e:
                 logger.error(f"自动删种任务异常：{str(e)}")
                 
@@ -754,7 +754,7 @@ class QBRssBrush(_PluginBase):
                     # 使用正则表达式匹配
                     if re.search(self._rss_regex, item_title):
                         if item_size > remain_size:
-                            logger.info(f"任务体积过大，剩余空间（{remain_size}GB）不足，跳过: {item_title}")
+                            logger.info(f"任务体积过大，剩余空间（{remain_size:.2f}GB）不足，跳过: {item_title}")
                             continue
                         # 添加下载任务
                         logger.info(f"添加下载任务: {item_title}")
