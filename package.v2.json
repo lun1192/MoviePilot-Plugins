@@ -28,11 +28,12 @@
         "name": "QB RSS刷流管理",
         "description": "自动订阅qBittorrent的RSS下载和上传流量管理。",
         "labels": "刷流",
-        "version": "1.4",
+        "version": "1.5",
         "icon": "brush.jpg",
         "author": "lun",
         "level": 2,
         "history": {
+            "v1.5": "修复rss获取体积bug",
             "v1.4": "修复逻辑bug",
             "v1.3": "增加对于瞬时上传速度的判断，都低于阈值才删除；删除种子日志中增加上传体积的记录",
             "v1.2": "增加对于多RSS订阅支持",
