@@ -25,7 +25,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.5"
+    plugin_version = "1.6"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -619,16 +619,13 @@ class QBRssBrush(_PluginBase):
                                 title=f"【自动删种任务完成】",
                                 text=message_text
                             )
-
-                    # 检查是否需要刷新RSS
-                    if self._rss_enabled:
-                        # 检查分类任务总体积
-                        remain_size = self._rss_size_limit - self.__get_category_size(downloader, self._rss_category)
-                        if remain_size > 0.0:
-                            #刷新rss，并下载新种子
-                            self.refresh_rss(downloader, remain_size)
-                        else:
-                            logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit:.2f}GB，暂停RSS刷新")
+                    # 检查分类任务总体积
+                    remain_size = self._rss_size_limit - self.__get_category_size(downloader, self._rss_category)
+                    if remain_size > 0.0:
+                        #刷新rss，并下载新种子
+                        self.refresh_rss(downloader, remain_size)
+                    else:
+                        logger.info(f"分类 {self._rss_category} 总体积已达到上限 {self._rss_size_limit:.2f}GB，暂停RSS刷新")
             except Exception as e:
                 logger.error(f"自动删种任务异常：{str(e)}")
                 
@@ -682,8 +679,9 @@ class QBRssBrush(_PluginBase):
                 if rss_name not in rss_feeds:
                     logger.warning(f"未找到名为'{rss_name}'的RSS源")
                     return []
-                #刷新RSS
-                downloader_obj.qbc.rss.refresh_item(rss_name) 
+                # 检查是否需要刷新RSS
+                if self._rss_enabled:
+                    downloader_obj.qbc.rss.refresh_item(rss_name) 
             else:
                 logger.warning(f"未指定RSS源")
                 return []
