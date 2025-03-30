@@ -25,7 +25,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.4"
+    plugin_version = "1.5"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -704,7 +704,7 @@ class QBRssBrush(_PluginBase):
                 if self._rss_aging_time > 0 and item_date < time_threshold:
                     continue
                 # 使用正则表达式匹配体积大小，只考虑GB，并提取纯数字
-                match = re.search(r'\[(\d+(\.\d+)?)\s*GB\]', article_title)
+                match = re.search(r'(\d+(\.\d+)?)\s*GB', article_title)
                 if match is None:
                     continue
                 # 如果文章未处理过且有下载链接
