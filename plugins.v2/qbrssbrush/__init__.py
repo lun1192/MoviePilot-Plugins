@@ -25,7 +25,7 @@ class QBRssBrush(_PluginBase):
     # 插件描述
     plugin_desc = "自动控制qBittorrent的RSS下载和上传流量管理"
     # 插件版本
-    plugin_version = "1.7"
+    plugin_version = "1.8"
     # 插件作者
     plugin_author = "lun"
     # 作者主页
@@ -609,6 +609,8 @@ class QBRssBrush(_PluginBase):
                                             f"大小：{StringUtils.str_filesize(torrent.get('size'))} " \
                                             f"上传大小：{StringUtils.str_filesize(torrent.get('upsize'))}"
                                 # 删除种子
+                                downlader_obj.stop_torrents(ids=[torrent.get("id")])
+                                time.sleep(1)
                                 downlader_obj.delete_torrents(delete_file=True,
                                                             ids=[torrent.get("id")])
                                 logger.info(f"自动删种任务 删除种子及文件：{text_item}")
